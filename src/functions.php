@@ -17,6 +17,8 @@ use Kenny1911\CloneWith\Exception\CloneException;
  *
  * @psalm-return T
  *
+ * @psalm-pure
+ *
  * @throws CloneException
  */
 function clone_with($object, array $properties)
