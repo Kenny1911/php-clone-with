@@ -39,6 +39,8 @@ final class Cloner
      *
      * @psalm-return T
      *
+     * @psalm-pure
+     *
      * @throws CloneException
      */
     public function cloneWith(array $properties)
