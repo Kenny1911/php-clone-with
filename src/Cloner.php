@@ -53,7 +53,7 @@ final class Cloner
             foreach ($ref->getProperties() as $refProp) {
                 $refProp->setAccessible(true);
 
-                $value = $properties[$refProp->getName()] ?? $refProp->getValue($this->object);
+                $value = key_exists($refProp->getName(), $properties) ? $properties[$refProp->getName()] : $refProp->getValue($this->object);
 
                 $refProp->setValue($clone, $value);
             }
