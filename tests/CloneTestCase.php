@@ -23,6 +23,20 @@ abstract class CloneTestCase extends TestCase
         $this->assertSame(789, $clone->bar);
     }
 
+    public function testCloneWithPropertyValueNull()
+    {
+        $object = new class {
+            public $foo = 123;
+            public $bar = 456;
+        };
+
+        $clone = $this->cloneWith($object, ['bar' => null]);
+
+        $this->assertSame(get_class($object), get_class($clone));
+        $this->assertSame(123, $clone->foo);
+        $this->assertNull($clone->bar);
+    }
+
     public function testCloneWithCloneableObject()
     {
         $dateTime = new DateTime();

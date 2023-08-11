@@ -10,6 +10,6 @@ class FunctionsTest extends CloneTestCase
 {
     protected function cloneWith($object, array $properties)
     {
-        return clone_with($object, ['bar' => 789]);
+        return clone_with($object, $properties);
     }
 }
