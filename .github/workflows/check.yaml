@@ -1,7 +1,7 @@
 on:
     workflow_dispatch: ~
     push:
-        branches: ['master', 'clone-with-a-la-php8.5']
+        branches: ['master']
     pull_request: ~
 
 jobs:
