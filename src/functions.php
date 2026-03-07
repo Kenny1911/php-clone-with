@@ -21,17 +21,17 @@ function clone_with($object, array $withProperties = [])
                 return ('clone')($object, $withProperties);
             }
             : static function ($object, array $withProperties) {
-                if (PrototypeFactory::hasReferences($withProperties)) {
+                if (References::arrayHasReferences($withProperties)) {
                     throw new \Error('Cannot assign by reference when cloning with updated properties');
                 }
 
-                $prototype = PrototypeFactory::create(clone $object, $withProperties);
+                $copy = ObjectCopier::copy(clone $object, $withProperties);
 
                 foreach ($withProperties as $name => $value) {
-                    $prototype->{$name} = $value;
+                    $copy->{$name} = $value;
                 }
 
-                return $prototype;
+                return $copy;
             };
     }
 
