@@ -13,6 +13,12 @@
     "require": {
         "php": "^7.1 | ^8.0"
     },
+    "scripts": {
+        "phpunit": "phpunit",
+        "checks": [
+            "@phpunit"
+        ]
+    },
     "autoload": {
         "psr-4": {
             "Kenny1911\\CloneWith\\": "./src"
