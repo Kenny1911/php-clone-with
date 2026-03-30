@@ -15,8 +15,10 @@
     },
     "scripts": {
         "phpunit": "phpunit",
+        "psalm": "./tools/psalm/vendor/bin/psalm --no-cache",
         "checks": [
-            "@phpunit"
+            "@phpunit",
+            "@psalm"
         ]
     },
     "autoload": {
