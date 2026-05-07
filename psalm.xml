@@ -36,4 +36,8 @@
         <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
         <pluginClass class="Typhoon\CheckVisibilityPsalmPlugin\CheckVisibilityPlugin"/>
     </plugins>
+
+    <stubs>
+        <file name="stubs/ReflectionObject.phpstub"/>
+    </stubs>
 </psalm>
