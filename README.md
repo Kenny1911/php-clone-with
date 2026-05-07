@@ -1,62 +1,34 @@
-# Helper function for cloning objects
+# Clone With
 
-Function `Kenny1911\CloneWith\clone_with` can set values of properties  during the cloning process.
+English | [Русский](./README-RU.md)
 
-> In future versions of php, there may be a `clone with` construct that will solve the same problem.
+**PHP 8.5** introduces the ability to override object properties during cloning by passing an associative array to the
+`clone` operator (function):
 
-## Usage
+```php
+$copy = clone($object, ['property' => 'new value']);
+```
+
+This provides straightforward support for the "wither" pattern, especially for immutable and read-only classes.
+
+The `Kenny1911\CloneWith\clone_with` function does the same thing, but starting from **PHP 7.1**:
 
 ```php
 use function Kenny1911\CloneWith\clone_with;
 
-class Post
-{
-    /** @var string */
-    private $title;
-    
-    /** @var string */
-    private $author;
-    
-    public function __construct(string $title, string $author)
-    {
-        $this->title = $title;
-        $this->author = $author;
-    }
-    
-    public function getTitle(): string
-    {
-        return $this->title;
-    }
-    
-    public function getAuthor(): string
-    {
-        return $this->author;
-    }
-}
-
-$post = new Post('Foo', 'Author');
-
-$post2 = clone_with($post, ['title' => 'Bar']);
-
-echo $post2->getTitle(); // Bar
+$copy = clone_with($object, ['property' => 'new value']);
 ```
 
-## Cloning PHP 8.1 readonly properties
+It works with **public**, **protected**, and **private** properties, correctly invokes the `__clone()` method in the
+target class (if defined), and requires no additional boilerplate code. This allows you to write immutable code today
+— maintaining compatibility with modern PHP versions and making future migration to native syntax easy.
 
+## Installation
 
-Readonly properties appeared in PHP 8.1.
+```bash
+composer require kenny1911/php-clone-with
+```
 
-It values cannot be changed, if use standard way to cloning objects (using `clone` operator).
+## PHP 8.5 Compatibility
 
-Function `clone_with` supports override values of readonly object properties.
-
-## Support classes with `__clone()` method
-
-Classes can has `__clone()` method, that contains additional logic of cloning object instance.
-
-Function `clone_with` supports it and clone logic will not be violated.
-
-## Alternatives
-
-- [spatie/php-cloneable](https://github.com/spatie/php-cloneable) - A `Cloneable` trait that allows you to clone
-  readonly properties in PHP 8.1.
+Starting from version `2.0.0`, the function is fully compatible with the native PHP 8.5 `clone` function.
