@@ -1,0 +1,17 @@
+<?php
+
+/**
+ * @template-covariant T as object
+ *
+ * @extends \ReflectionClass<T>
+ *
+ * @property-read class-string<T> $name
+ */
+class ReflectionObject extends ReflectionClass
+{
+    /**
+     * @param T $object
+     * @psalm-pure
+     */
+    public function __construct(object $object) {}
+}
