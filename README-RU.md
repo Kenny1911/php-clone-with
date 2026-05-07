@@ -1,61 +1,35 @@
-# Вспомогательная функция для клонирования объектов
+# Clone With
 
-Функция `Kenny1911\CloneWith\clone_with` позволяет устанавливать значения свойств во время процесса клонирования.
+[English](./README.md) | Русский
 
-> В будущих версиях php, возможно, появится конструкция `clone with`, которая будет решать эту же самую задачу.
+**В PHP 8.5** появилась возможность при клонировании объектов переопределять их свойства, передавая ассоциативный массив
+в оператор (функцию) `clone`:
 
-## Пример использования
+```php
+$copy = clone($object, ['property' => 'new value']);
+```
+
+Это обеспечивает простую поддержку "with-er"-паттерна, особенно для неизменяемых (immutable) и read-only классов.
+
+Функция `Kenny1911\CloneWith\clone_with` позволяет делать то же самое, но начиная с **PHP 7.1**:
 
 ```php
 use function Kenny1911\CloneWith\clone_with;
 
-class Post
-{
-    /** @var string */
-    private $title;
-    
-    /** @var string */
-    private $author;
-    
-    public function __construct(string $title, string $author)
-    {
-        $this->title = $title;
-        $this->author = $author;
-    }
-    
-    public function getTitle(): string
-    {
-        return $this->title;
-    }
-    
-    public function getAuthor(): string
-    {
-        return $this->author;
-    }
-}
-
-$post = new Post('Foo', 'Author');
-
-$post2 = clone_with($post, ['title' => 'Bar']);
-
-echo $post2->getTitle(); // Bar
+$copy = clone_with($object, ['property' => 'new value']);
 ```
 
-## Клонирование readonly свойств в PHP 8.1
+Она работает с **public**, **protected** и **private** свойствами, корректно вызывает метод `__clone()` в целевом
+классе (если он определён), и не требует ручного написания дополнительного кода. Это даёт возможность писать
+иммутабельный код уже сегодня — сохраняя совместимость с современными версиями PHP и простоту будущего перехода на
+нативный синтаксис.
 
-В PHP 8.1 появились readonly свойства.
+## Установка
 
-Стандартным способом при клонировании объекта их значения нельзя изменить.
+```bash
+composer require kenny1911/php-clone-with
+```
 
-Функция `clone_with` поддерживает переопределение значений для readonly свойств.
+## Совместимость с PHP 8.5
 
-## Поддержка классов с методом `__clone()`
-
-Классы могут иметь метод `__clone()`, в котором содержится дополнительная логика для клонирования экземпляра объекта.
-
-Функция `clone_with` учитывает это. Поэтому логика клонирования объектов не будет нарушена.
-
-## Альтернативы
-
-- [spatie/php-cloneable](https://github.com/spatie/php-cloneable) - Тейт `Cloneable`, поддерживающий клонирование
-  readonly свойств в PHP 8.1.
+Начиная с версии `2.0.0`, функция полностью совместима с нативной PHP 8.5 функцией `clone`.
