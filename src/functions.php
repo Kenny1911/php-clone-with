@@ -9,6 +9,7 @@ namespace Kenny1911\CloneWith;
  *
  * @template T of object
  * @param T $object
+ * @param array<string, mixed> $withProperties
  * @return T
  */
 function clone_with($object, array $withProperties = [])
@@ -16,6 +17,11 @@ function clone_with($object, array $withProperties = [])
     static $clone = null;
 
     if ($clone === null) {
+        /**
+         * @var \Closure(T, array): T $clone Guaranteed type is defined, not null at this line
+         *
+         * @psalm-suppress MissingClosureReturnType,MissingClosureParamType Guaranteed type of $clone
+         */
         $clone = function_exists('clone')
             ? static function ($object, array $withProperties) {
                 return ('clone')($object, $withProperties);
@@ -25,6 +31,7 @@ function clone_with($object, array $withProperties = [])
                     throw new \Error('Cannot assign by reference when cloning with updated properties');
                 }
 
+                /** @psalm-suppress MixedClone Guaranteed, that type of $object is object */
                 $copy = ObjectCopier::copy(clone $object, $withProperties);
 
                 foreach ($withProperties as $name => $value) {
@@ -38,6 +45,7 @@ function clone_with($object, array $withProperties = [])
     $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2);
 
     if (isset($trace[1]['class'])) {
+        /** @psalm-suppress PossiblyNullFunctionCall Type of $clone is not null */
         return $clone->bindTo(null, $trace[1]['class'])($object, $withProperties);
     }
 

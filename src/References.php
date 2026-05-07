@@ -18,7 +18,7 @@ final class References
             $canCheck = class_exists(\ReflectionReference::class);
         }
 
-        if (!$canCheck) {
+        if (true !== $canCheck) {
             return false;
         }
 
